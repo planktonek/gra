@@ -12,26 +12,26 @@ import java.awt.Point;
 public class Punkcik extends Point
 {
 
-	public Punkcik(int x, int y, String owner)
+	public Punkcik(int x, int y, int owner)
 	{
 		this.x=x;
 		this.y=y;
 	}
 
-    public Punkcik(String owner, Point p) {
+    public Punkcik(int owner, Point p) {
 	super(p);
 	this.owner = owner;
     }
-	
-	private String owner;
 
-  
-	public String getOwner()
+	private int owner;
+
+
+	public int getOwner()
 	{
 		return owner;
 	}
 
-	public void setOwner(String owner)
+	public void setOwner(int owner)
 	{
 		this.owner = owner;
 	}
