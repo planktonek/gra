@@ -5,15 +5,31 @@
 package Main;
 
 import Engine.Frame;
+import java.io.IOException;
+import java.nio.CharBuffer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Plankton
  */
-public class Main {
+public class Main{
 
-   
-    public static void main(String[] args) {
-	new Frame().setVisible(true);
+    
+
+    public Main() {
+	
     }
+
+  
+    public static void main(String[] args) {
+	Frame a=new Frame();
+	a.setVisible(true);
+	a.run();
+    }
+
+
+
+
 }

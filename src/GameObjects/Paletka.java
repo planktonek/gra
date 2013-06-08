@@ -15,13 +15,13 @@ public class Paletka extends GameObiect{
 
  
     
-    public void moveme(int value){
-	
-      if(side==0||side==2){
-	  this.position.translate(0,value);	  
+    public void moveme(Point value){
+		  
+      if(side==1||side==3){
+	  this.position.move(value.x, this.position.y);
       }
       else 
-	  this.position.translate(value, 0);
+	  this.position.move(this.position.x,value.y);
     }
 
     
