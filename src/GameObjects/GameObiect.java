@@ -10,7 +10,7 @@ import java.awt.geom.Point2D;
  * @author Plankton
  */
 public abstract class GameObiect {
-    private Image image;
+    protected Image image;
     protected Point position;
     
     public GameObiect(Image image, Point position) {
@@ -20,7 +20,7 @@ public abstract class GameObiect {
     
   
     
-    private void paintMe(Graphics g){
+    public void paintMe(Graphics g){
 	g.drawImage(image, position.x,position.y, null);	
     }
 }

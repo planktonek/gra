@@ -18,10 +18,10 @@ public class Punkcik extends Point
 		this.y=y;
 	}
 
-    public Punkcik(String owner, Point p) {
-	super(p);
-	this.owner = owner;
-    }
+	public Punkcik(String owner, Point p) {
+	    super(p);
+	    this.owner = owner;
+	}
 	
 	private String owner;
 
