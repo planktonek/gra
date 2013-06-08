@@ -1,16 +1,15 @@
 package GameObjects;
 
-import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Point;
+import java.awt.image.BufferedImage;
 
 
 public class Paletka extends GameObiect{
     int side;
-    public Paletka(Image image, Point position,int side) {
+    public Paletka(BufferedImage image, Point position,int side) {
 	super(image, position);
 	if(side==3||side==1){
-	    this.image.
+	    
 	}
     }
 

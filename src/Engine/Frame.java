@@ -5,6 +5,7 @@ import GameObjects.Paletka;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.HeadlessException;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -27,7 +28,7 @@ public class Frame extends JFrame{
 	} catch (IOException ex) {
 	    Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, ex);
 	}
-    this.obj.add(new Paletka(paletka, null).);
+    this.obj.add(new Paletka(paletka,new Point(0,0),2));
     }
 
     
