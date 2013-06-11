@@ -26,7 +26,7 @@ public class Main{
     public static void main(String[] args) {
 	Frame a=new Frame();
 	a.setVisible(true);
-	a.run();
+	a.start();
     }
 
 

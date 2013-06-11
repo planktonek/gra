@@ -4,9 +4,12 @@
  */
 package Engine;
 
+import defaultowaPaczka.Wiadomosc;
+import java.awt.Point;
 import java.io.*;
 import java.net.*;
-import java.util.logging.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -19,14 +22,18 @@ public class Connection implements Runnable {
      */
     Socket gniazdo;
     ObjectOutputStream pisarz;
-    ObjectInputStream input;
+    ObjectInputStream czytacz;
+    ConnectionListener c;
 
-    public Connection(String ip) {
+    public Connection(String ip, ConnectionListener c) {
 	try {
-	    gniazdo = new Socket(ip, 5000);
+	    this.c = c;
+	    gniazdo = new Socket("172.20.18.251", 5000);
 
 	    pisarz = new ObjectOutputStream(gniazdo.getOutputStream());
+	    czytacz = new ObjectInputStream(gniazdo.getInputStream());
 	    System.out.println("obsługa sieci gotowa do użycia");
+	    new Thread(this).start();
 	} catch (IOException ex) {
 	    ex.printStackTrace();
 	}
@@ -34,17 +41,43 @@ public class Connection implements Runnable {
 
     @Override
     public void run() {
-	    while(true){
-		//odbieranie pakietów aleluja alleluja  
+	while (true) {
+	    Wiadomosc pk=null;
+	    try {
+		pk = (Wiadomosc) czytacz.readObject();
+	    } catch (IOException ex) {
+		Logger.getLogger(Connection.class.getName()).log(Level.SEVERE, null, ex);
+	    } catch (ClassNotFoundException ex) {
+		Logger.getLogger(Connection.class.getName()).log(Level.SEVERE, null, ex);
 	    }
-    }
-    public void SayHello(){
-	
-	
-    }
-    void Send(Object a) throws IOException {
+	    switch (pk.getTekst()) {
+		case "elo": c.onElo(pk.getId()); break;
+		case "ball": c.onBall(pk.getLocation());break;
+		case "move": c.onPlayer(pk);break;
+		case "start":c.onStart();break;
+		case "end":c.onEnd();break;
 
-	pisarz.writeObject(a);
-	pisarz.flush();
+	    }
+	}
+    }
+
+    public void sayHello() {
+	Wiadomosc w = new Wiadomosc(0, new Point());
+	w.setTekst("hello");
+	send(w);
+    }
+    public void move(Point p,int id){
+	Wiadomosc w = new Wiadomosc(id, p);
+	w.setTekst("move");
+	send(w);		
+    }
+    void send(Wiadomosc w) {
+	try {
+	    pisarz.writeObject(w);
+	    pisarz.flush();
+	    pisarz.reset();
+	} catch (IOException ex) {
+	    Logger.getLogger(Connection.class.getName()).log(Level.SEVERE, null, ex);
+	}
     }
 }

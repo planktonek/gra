@@ -24,4 +24,9 @@ public abstract class GameObiect {
     public void paintMe(Graphics g){
 	g.drawImage(image, position.x,position.y, null);	
     }
+
+    public Point getPosition() {
+	return position;
+    }
+    
 }

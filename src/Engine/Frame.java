@@ -3,6 +3,7 @@ package Engine;
 import GameObjects.Ball;
 import GameObjects.GameObiect;
 import GameObjects.Paletka;
+import defaultowaPaczka.Wiadomosc;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.HeadlessException;
@@ -20,12 +21,18 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
-public class Frame extends JFrame implements MouseMotionListener, Runnable {
+public class Frame extends JFrame implements MouseMotionListener, Runnable,ConnectionListener {
 
     List<GameObiect> obj = new ArrayList<>();
     Paletka mePaletka;
     private Thread gra;
     BufferedImage plan = null;
+    Connection c;
+    int me;
+    Boolean start=false;    
+    public void start(){
+	gra.start();
+    }
     public Frame() throws HeadlessException {
 	this.setSize(600, 600);
 	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
@@ -40,14 +47,22 @@ public class Frame extends JFrame implements MouseMotionListener, Runnable {
 	} catch (IOException ex) {
 	    Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, ex);
 	}
-	this.mePaletka = new Paletka(paletka, new Point(30, 0), 3);
-	this.obj.add(mePaletka);
-	this.obj.add(new Paletka(paletka, new Point(600-30, 300), 1));
-	this.obj.add(new Paletka(paletkar, new Point(30, 30), 0));
-	this.obj.add(new Paletka(paletkar, new Point(300, 600-30), 2));
+	
+	
+	this.obj.add(new Paletka(paletkar, new Point(30, 30), 0));	
+	this.obj.add(new Paletka(paletka, new Point(600-30, 300), 1));	
+	this.obj.add(new Paletka(paletkar, new Point(300, 600-30), 2));	
+	this.obj.add(new Paletka(paletka, new Point(30, 0), 3));
+	
 	this.obj.add(new Ball(ball, new Point(300, 300)));
+	c=new Connection("", this);
 	gra = new Thread(this);
-	gra.start();
+	c.sayHello();
+	//gra.run();
+	this.onElo(1);
+	
+	this.onStart();
+	this.repaint();
     }
 
     @Override
@@ -76,7 +91,10 @@ public class Frame extends JFrame implements MouseMotionListener, Runnable {
 
     @Override
     public void mouseMoved(MouseEvent e) {
-	mePaletka.moveme(e.getPoint());
+	if(this.start){
+	    mePaletka.moveme(e.getPoint());
+	    this.c.move(((Paletka)mePaletka).getPosition(), me);
+	}
     }
 
     @Override
@@ -89,5 +107,35 @@ public class Frame extends JFrame implements MouseMotionListener, Runnable {
 		Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, ex);
 	    }
 	}
+    }
+
+    @Override
+    public void onElo(int id) {
+	this.mePaletka=(Paletka)obj.get(id);
+	this.me=id;
+	
+    }
+
+    @Override
+    public void onBall(Point poin) {
+	((Ball)obj.get(5)).setPosition(poin);
+	
+    }
+
+    @Override
+    public void onPlayer(Wiadomosc point) {
+	if(point.getId()!=me){	    
+	  ((Paletka)obj.get(point.getId())).moveme(point.getLocation());
+	}
+    }
+
+    @Override
+    public void onStart() {
+	this.start=true;
+    }
+
+    @Override
+    public void onEnd() {
+	this.start=false;
     }
 }
