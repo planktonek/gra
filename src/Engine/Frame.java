@@ -40,10 +40,10 @@ public class Frame extends JFrame implements MouseMotionListener, Runnable,Conne
 	this.setVisible(true);
 	BufferedImage paletka = null,paletkar=null,ball=null;
 	try {
-	    paletka = ImageIO.read(new File("C:/Users/Plankton/Documents/NetBeansProjects/pong4/img/paletka.jpg"));
-	    paletkar = ImageIO.read(new File("C:/Users/Plankton/Documents/NetBeansProjects/pong4/img/paletkar.jpg"));
-	    plan = ImageIO.read(new File("C:/Users/Plankton/Documents/NetBeansProjects/pong4/img/pl.jpg"));
-	    ball = ImageIO.read(new File("C:/Users/Plankton/Documents/NetBeansProjects/pong4/img/ball.jpg"));
+	    paletka = ImageIO.read(new File("img/paletka.jpg"));
+	    paletkar = ImageIO.read(new File("img/paletkar.jpg"));
+	    plan = ImageIO.read(new File("img/pl.jpg"));
+	    ball = ImageIO.read(new File("img/ball.jpg"));
 	} catch (IOException ex) {
 	    Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, ex);
 	}
